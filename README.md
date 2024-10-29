@@ -20,19 +20,19 @@ Generate conventional commit messages automatically using AI (Claude) to analyze
 python -m pip install --user pipx
 python -m pipx ensurepath
 
-# Install ai-conventional-commit
-pipx install git+https://github.com/yourusername/ai-conventional-commit.git
+# Install ai-commit
+pipx install git+https://github.com/yourusername/ai-commit.git
 ```
 
 ### Using pip
 ```bash
-pip install git+https://github.com/yourusername/ai-conventional-commit.git
+pip install git+https://github.com/yourusername/ai-commit.git
 ```
 
 ### Development Installation
 ```bash
-git clone https://github.com/yourusername/ai-conventional-commit.git
-cd ai-conventional-commit
+git clone https://github.com/yourusername/ai-commit.git
+cd ai-commit
 pip install -e .
 ```
 
