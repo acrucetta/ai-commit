@@ -21,17 +21,17 @@ python -m pip install --user pipx
 python -m pipx ensurepath
 
 # Install ai-commit
-pipx install git+https://github.com/yourusername/ai-commit.git
+pipx install git+https://github.com/acrucetta/ai-commit.git
 ```
 
 ### Using pip
 ```bash
-pip install git+https://github.com/yourusername/ai-commit.git
+pip install git+https://github.com/acrucetta/ai-commit.git
 ```
 
 ### Development Installation
 ```bash
-git clone https://github.com/yourusername/ai-commit.git
+git clone https://github.com/acrucetta/ai-commit.git
 cd ai-commit
 pip install -e .
 ```
