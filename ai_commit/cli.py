@@ -4,7 +4,9 @@ import click
 import anthropic
 import os
 from pathlib import Path
+from .constants import SYSTEM_PROMPT
 import json
+import re
 
 def get_api_key() -> str:
     """Get API key from environment or config file."""
@@ -38,35 +40,43 @@ def get_staged_changes() -> str:
     except subprocess.CalledProcessError as e:
         raise click.ClickException(f"Error getting git diff: {e.output}")
 
+def extract_commit_message(response: str) -> str:
+    """Extract commit message from between XML tags."""
+    pattern = r'<commit_message>(.*?)</commit_message>'
+    match = re.search(pattern, response, re.DOTALL)
+    if not match:
+        raise click.ClickException("Failed to parse commit message from response")
+    
+    # Clean up the message
+    message = match.group(1).strip()
+    
+    return message.strip()
+
 def generate_commit_message(client: anthropic.Client, diff: str) -> str:
     """Generate a conventional commit message using Claude API."""
-    prompt = f"""You are a helpful assistant that generates conventional commit messages.
-    Based on the following git diff, generate a conventional commit message.
-    Follow the format: <type>(<scope>): <description>
+    formatted_prompt = SYSTEM_PROMPT.replace("{{STAGED_CHANGES}}", diff)
     
-    Types: feat, fix, docs, style, refactor, test, chore
-    
-    Rules:
-    1. Keep the description concise and under 72 characters
-    2. Use present tense ("add feature" not "added feature")
-    3. Don't include breaking changes or detailed body
-    4. Return ONLY the commit message, nothing else
-    
-    Git diff:
-    {diff}
-    """
-
-    response = client.messages.create(
-        model="claude-3-sonnet-20240229",
-        max_tokens=100,
-        temperature=0.7,
-        messages=[{
-            "role": "user",
-            "content": prompt
-        }]
-    )
-
-    return response.content[0].text.strip()
+    try:
+        response = client.messages.create(
+            model="claude-3-5-sonnet-20241022",
+            max_tokens=1000,
+            temperature=0,
+            messages=[{
+                "role": "user",
+                "content": formatted_prompt
+            }]
+        )
+        
+        commit_message = extract_commit_message(response.content[0].text)
+        if not commit_message:
+            raise click.ClickException("Generated commit message is empty")
+            
+        return commit_message
+        
+    except anthropic.APIError as e:
+        raise click.ClickException(f"API error: {str(e)}")
+    except Exception as e:
+        raise click.ClickException(f"Error generating commit message: {str(e)}")
 
 @click.group()
 def cli():
