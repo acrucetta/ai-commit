@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
 Name: ai-conventional-commit
-Version: 0.1
+Version: 0.2
 Requires-Dist: click
 Requires-Dist: anthropic

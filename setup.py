@@ -2,15 +2,15 @@ from setuptools import setup, find_packages
 
 setup(
     name="ai-conventional-commit",
-    version="0.1",
+    version="0.2",
     packages=find_packages(),
     install_requires=[
-        'click',
-        'anthropic',
+        "click",
+        "anthropic",
     ],
     entry_points={
-        'console_scripts': [
-            'ai-commit=ai_commit.cli:cli',
-            ],
+        "console_scripts": [
+            "ai-commit=ai_commit.cli:cli",
+        ],
     },
 )
