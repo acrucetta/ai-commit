@@ -24,16 +24,25 @@ python -m pipx ensurepath
 pipx install git+https://github.com/acrucetta/ai-commit.git
 ```
 
+### Using Poetry (recommended for development)
+```bash
+# Install Poetry if you haven't already
+# See https://python-poetry.org/docs/#installation for instructions
+
+# Clone the repository
+git clone https://github.com/acrucetta/ai-commit.git
+cd ai-commit
+
+# Install dependencies
+poetry install
+
+# Run the CLI
+poetry run ai-commit
+```
+
 ### Using pip
 ```bash
 pip install git+https://github.com/acrucetta/ai-commit.git
-```
-
-### Development Installation
-```bash
-git clone https://github.com/acrucetta/ai-commit.git
-cd ai-commit
-pip install -e .
 ```
 
 ## Configuration
